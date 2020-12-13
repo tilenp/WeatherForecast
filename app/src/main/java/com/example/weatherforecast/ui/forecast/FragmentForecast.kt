@@ -55,6 +55,7 @@ class FragmentForecast : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        viewModel.start()
         compositeDisposable.add(
             viewModel.getUIState()
                 .subscribeOn(schedulerProvider.io())
@@ -119,6 +120,12 @@ class FragmentForecast : Fragment() {
             maxTempTextView.text = String.format(getString(R.string.max_temp_format), forecast.maxTemp)
             windSpeedTextView.text = String.format(getString(R.string.wind_speed_format), forecast.windSpeed)
         }
+    }
+
+    override fun onStop() {
+        viewModel.stop()
+        compositeDisposable.clear()
+        super.onStop()
     }
 
     override fun onDestroyView() {

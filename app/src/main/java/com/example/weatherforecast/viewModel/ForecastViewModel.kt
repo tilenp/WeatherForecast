@@ -19,10 +19,6 @@ class ForecastViewModel @Inject constructor(
     private val uiStateSubject = BehaviorSubject.create<UIState>()
     private val compositeDisposable = CompositeDisposable()
 
-    init {
-        setUpForecastUpdate()
-    }
-
     private fun setUpForecastUpdate() {
         compositeDisposable.add(
             eventAggregator.observeLocationSelected()
@@ -40,6 +36,15 @@ class ForecastViewModel @Inject constructor(
                     System.out.println("TTT error " + it.message)
                 })
         )
+    }
+
+    fun start() {
+        compositeDisposable.clear()
+        setUpForecastUpdate()
+    }
+
+    fun stop() {
+        compositeDisposable.clear()
     }
 
     fun getUIState(): Observable<UIState> {

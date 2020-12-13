@@ -35,12 +35,17 @@ class ForecastViewModelTest {
             updateForecastCompletable = Completable.never()
         )
 
+        // act
+        viewModel.start()
+
         // assert
         viewModel.getUIState()
             .test()
             .assertValue(UIState.Loading)
             .assertNoErrors()
             .dispose()
+
+        viewModel.stop()
     }
 
     @Test
@@ -51,11 +56,16 @@ class ForecastViewModelTest {
             updateForecastCompletable = Completable.error(Throwable())
         )
 
+        // act
+        viewModel.start()
+
         // assert
         viewModel.getUIState()
             .test()
             .assertValue(UIState.Error(R.string.update_forecast_error))
             .dispose()
+
+        viewModel.stop()
     }
 
     @Test
