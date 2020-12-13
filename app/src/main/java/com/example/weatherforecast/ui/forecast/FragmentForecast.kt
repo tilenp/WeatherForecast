@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -14,6 +15,7 @@ import com.example.weatherforecast.databinding.FragmentForecastBinding
 import com.example.weatherforecast.repository.Forecast
 import com.example.weatherforecast.utils.SchedulerProvider
 import com.example.weatherforecast.viewModel.ForecastViewModel
+import com.example.weatherforecast.viewModel.UIState
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
@@ -54,18 +56,60 @@ class FragmentForecast : Fragment() {
     override fun onStart() {
         super.onStart()
         compositeDisposable.add(
+            viewModel.getUIState()
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.main())
+                .subscribe({
+                    handleUIState(it)
+                }, {})
+        )
+
+        compositeDisposable.add(
             viewModel.getTomorrowForecast()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.main())
                 .subscribe({
-                    updateUI(it)
+                    updateData(it)
                 }, {
                     System.out.println("TTT " + it.message)
                 })
         )
     }
 
-    private fun updateUI(forecast: Forecast) {
+    private fun handleUIState(state: UIState) {
+        when (state) {
+            is UIState.Loading -> setLoadingState()
+            is UIState.Success -> setSuccessState()
+            is UIState.Error -> setErrorState(state.stringId)
+        }
+    }
+
+    private fun setLoadingState() {
+        with(binding) {
+            progressBar.visibility = View.VISIBLE
+            selectLocationTextView.visibility = View.GONE
+            forecastContainer.visibility = View.GONE
+        }
+    }
+
+    private fun setSuccessState() {
+        with(binding) {
+            progressBar.visibility = View.GONE
+            selectLocationTextView.visibility = View.GONE
+            forecastContainer.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setErrorState(stringId: Int) {
+        with(binding) {
+            progressBar.visibility = View.GONE
+            selectLocationTextView.visibility = View.VISIBLE
+            forecastContainer.visibility = View.GONE
+        }
+        Toast.makeText(requireContext(), getString(stringId), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun updateData(forecast: Forecast) {
         with(binding) {
             Glide.with(image.context)
                 .load(forecast.imagePath?.imageSize64)

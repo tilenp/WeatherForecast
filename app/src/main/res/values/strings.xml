@@ -5,4 +5,7 @@
     <string name="min_temp_format">Min: %d °C</string>
     <string name="max_temp_format">Max: %d °C</string>
     <string name="wind_speed_format">Wind speed: %.1f mph</string>
+    <string name="Select_location">Select location</string>
+    <string name="update_forecast_error">An error occurred while trying to update tomorrow\'s forecast</string>
+    <string name="database_error">Database query failed</string>
 </resources>
