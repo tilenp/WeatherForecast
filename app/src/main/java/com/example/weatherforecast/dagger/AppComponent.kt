@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.weatherforecast.dagger.module.AppModule
 import com.example.weatherforecast.dagger.module.DatabaseModule
 import com.example.weatherforecast.dagger.module.MapperModule
+import com.example.weatherforecast.dagger.module.ViewModelModule
 import com.example.weatherforecast.ui.locations.FragmentLocations
 import dagger.BindsInstance
 import dagger.Component
@@ -14,7 +15,8 @@ import javax.inject.Singleton
     modules = [
         AppModule::class,
         DatabaseModule::class,
-        MapperModule::class
+        MapperModule::class,
+        ViewModelModule::class
     ]
 )
 interface AppComponent {
