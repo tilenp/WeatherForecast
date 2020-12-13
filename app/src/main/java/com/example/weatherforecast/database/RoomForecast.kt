@@ -16,7 +16,7 @@ import androidx.room.PrimaryKey
 )
 data class RoomForecast(
     @PrimaryKey
-    val id: Int,
+    val id: Long,
     val locationId: Int,
     val applicableDate: Long,
     val weatherStateName: String = "",

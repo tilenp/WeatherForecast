@@ -1,10 +1,8 @@
 package com.example.weatherforecast.dagger
 
 import android.content.Context
-import com.example.weatherforecast.dagger.module.AppModule
-import com.example.weatherforecast.dagger.module.DatabaseModule
-import com.example.weatherforecast.dagger.module.MapperModule
-import com.example.weatherforecast.dagger.module.ViewModelModule
+import com.example.weatherforecast.dagger.module.*
+import com.example.weatherforecast.ui.forecast.FragmentForecast
 import com.example.weatherforecast.ui.locations.FragmentLocations
 import dagger.BindsInstance
 import dagger.Component
@@ -14,6 +12,8 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AppModule::class,
+        ApiModule::class,
+        ServiceModule::class,
         DatabaseModule::class,
         MapperModule::class,
         ViewModelModule::class
@@ -27,4 +27,5 @@ interface AppComponent {
     }
 
     fun inject(fragment: FragmentLocations)
+    fun inject(fragment: FragmentForecast)
 }

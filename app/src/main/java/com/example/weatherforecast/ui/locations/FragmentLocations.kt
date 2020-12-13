@@ -89,7 +89,7 @@ class FragmentLocations : Fragment(), OnLocationClick {
     }
 
     override fun onLocationClick(location: Location) {
-        viewModel.onLocationClick()
+        viewModel.onLocationClick(location)
     }
 
     override fun onStop() {

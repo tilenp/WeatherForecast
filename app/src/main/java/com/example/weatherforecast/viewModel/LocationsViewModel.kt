@@ -13,12 +13,14 @@ import javax.inject.Named
 
 class LocationsViewModel @Inject constructor(
     private val locationRepository: LocationRepository,
-    @Named(SPLIT_VIEW) private val splitView: Boolean
+    @Named(SPLIT_VIEW) private val splitView: Boolean,
+    private val eventAggregator: EventAggregator
 ) : ViewModel() {
 
     private val navigationSubject = PublishSubject.create<Int>()
 
-    fun onLocationClick() {
+    fun onLocationClick(location: Location) {
+        eventAggregator.locationSelected(location)
         if (!splitView) {
             navigationSubject.onNext(R.id.action_fragmentLocations_to_fragmentForecast)
         }
