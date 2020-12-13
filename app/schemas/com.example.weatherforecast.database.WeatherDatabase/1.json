@@ -1,0 +1,123 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "58feb740dbfbd58efa1e237ff3a74ffe",
+    "entities": [
+      {
+        "tableName": "RoomLocation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`woeid` INTEGER NOT NULL, `title` TEXT NOT NULL, `forecastUpdateTimestamp` INTEGER NOT NULL, PRIMARY KEY(`woeid`))",
+        "fields": [
+          {
+            "fieldPath": "woeid",
+            "columnName": "woeid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "forecastUpdateTimestamp",
+            "columnName": "forecastUpdateTimestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "woeid"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "RoomForecast",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `locationId` INTEGER NOT NULL, `weatherStateName` TEXT NOT NULL, `weatherStateAbbr` TEXT NOT NULL, `minTemp` INTEGER NOT NULL, `maxTemp` INTEGER NOT NULL, `windSpeed` REAL NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`locationId`) REFERENCES `RoomLocation`(`woeid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locationId",
+            "columnName": "locationId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weatherStateName",
+            "columnName": "weatherStateName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weatherStateAbbr",
+            "columnName": "weatherStateAbbr",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "minTemp",
+            "columnName": "minTemp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxTemp",
+            "columnName": "maxTemp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windSpeed",
+            "columnName": "windSpeed",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_RoomForecast_locationId",
+            "unique": false,
+            "columnNames": [
+              "locationId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_RoomForecast_locationId` ON `${TABLE_NAME}` (`locationId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "RoomLocation",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "locationId"
+            ],
+            "referencedColumns": [
+              "woeid"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '58feb740dbfbd58efa1e237ff3a74ffe')"
+    ]
+  }
+}
