@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/fragmentLocations">
+
+    <fragment
+        android:id="@+id/fragmentLocations"
+        android:name="com.example.weatherforecast.FragmentLocations"
+        android:label="fragment_locations"
+        tools:layout="@layout/fragment_locations" >
+        <action
+            android:id="@+id/action_fragmentLocations_to_fragmentForecast"
+            app:destination="@id/fragmentForecast" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentForecast"
+        android:name="com.example.weatherforecast.FragmentForecast"
+        android:label="fragment_forecast"
+        tools:layout="@layout/fragment_forecast" />
+</navigation>
