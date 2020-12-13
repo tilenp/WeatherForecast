@@ -23,8 +23,9 @@ class ForecastViewModel @Inject constructor(
     private fun setUpForecastUpdate() {
         compositeDisposable.add(
             eventAggregator.observeLocationSelected()
-                .switchMapCompletable { location -> forecastRepository.setUpForecastUpdate(location.woeid) }
                 .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.io())
+                .switchMapCompletable { location -> forecastRepository.setUpForecastUpdate(location.woeid) }
                 .subscribe({
                     System.out.println("TTT success")
                 }, {

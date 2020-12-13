@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.weatherforecast.R
 import com.example.weatherforecast.dagger.ComponentProvider
 import com.example.weatherforecast.databinding.FragmentForecastBinding
@@ -66,6 +67,9 @@ class FragmentForecast : Fragment() {
 
     private fun updateUI(forecast: Forecast) {
         with(binding) {
+            Glide.with(image.context)
+                .load(forecast.imagePath?.imageSize64)
+                .into(image)
             weatherStateTextView.text = String.format(getString(R.string.weather_state_format), forecast.weatherStateName)
             minTempTextView.text = String.format(getString(R.string.min_temp_format), forecast.minTemp)
             maxTempTextView.text = String.format(getString(R.string.max_temp_format), forecast.maxTemp)
