@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "58feb740dbfbd58efa1e237ff3a74ffe",
+    "identityHash": "99c9a6319f4cfec3804594e6ede338cf",
     "entities": [
       {
         "tableName": "RoomLocation",
@@ -38,7 +38,7 @@
       },
       {
         "tableName": "RoomForecast",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `locationId` INTEGER NOT NULL, `weatherStateName` TEXT NOT NULL, `weatherStateAbbr` TEXT NOT NULL, `minTemp` INTEGER NOT NULL, `maxTemp` INTEGER NOT NULL, `windSpeed` REAL NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`locationId`) REFERENCES `RoomLocation`(`woeid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `locationId` INTEGER NOT NULL, `applicableDate` INTEGER NOT NULL, `weatherStateName` TEXT NOT NULL, `weatherStateAbbr` TEXT NOT NULL, `minTemp` INTEGER NOT NULL, `maxTemp` INTEGER NOT NULL, `windSpeed` REAL NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`locationId`) REFERENCES `RoomLocation`(`woeid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -49,6 +49,12 @@
           {
             "fieldPath": "locationId",
             "columnName": "locationId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "applicableDate",
+            "columnName": "applicableDate",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -117,7 +123,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '58feb740dbfbd58efa1e237ff3a74ffe')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '99c9a6319f4cfec3804594e6ede338cf')"
     ]
   }
 }

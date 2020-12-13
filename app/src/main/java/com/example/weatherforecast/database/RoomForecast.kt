@@ -18,6 +18,7 @@ data class RoomForecast(
     @PrimaryKey
     val id: Int,
     val locationId: Int,
+    val applicableDate: Long,
     val weatherStateName: String = "",
     val weatherStateAbbr: String = "",
     val minTemp: Int = 0,
