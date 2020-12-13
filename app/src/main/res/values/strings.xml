@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">WeatherForecast</string>
+
+    <string name="weather_state_format">Weather state: %s</string>
+    <string name="min_temp_format">Min: %d °C</string>
+    <string name="max_temp_format">Max: %d °C</string>
+    <string name="wind_speed_format">Wind speed: %d mph</string>
 </resources>

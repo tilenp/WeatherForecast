@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentForecast"
-        android:name="com.example.weatherforecast.ui.FragmentForecast"
+        android:name="com.example.weatherforecast.ui.forecast.FragmentForecast"
         android:label="fragment_forecast"
         tools:layout="@layout/fragment_forecast" />
 </navigation>
