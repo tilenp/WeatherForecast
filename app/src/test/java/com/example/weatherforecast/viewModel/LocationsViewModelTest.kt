@@ -9,7 +9,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Single
 import org.junit.Test
 
-class LocationViewModelTest {
+class LocationsViewModelTest {
 
     private val locationRepository: LocationRepository = mock()
     private lateinit var locationViewModel: LocationsViewModel
