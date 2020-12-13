@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.weatherforecast.R
 import com.example.weatherforecast.dagger.ComponentProvider
 import com.example.weatherforecast.databinding.FragmentLocationsBinding
 import com.example.weatherforecast.repository.Location
@@ -72,16 +71,25 @@ class FragmentLocations : Fragment(), OnLocationClick {
                     showLocations(it)
                 }, {})
         )
+
+        compositeDisposable.add(
+            viewModel.getNavigation()
+                .subscribe({
+                    navigate(it)
+                }, {})
+        )
     }
 
     private fun showLocations(locations: List<Location>) {
         adapter.setLocations(locations)
     }
 
+    private fun navigate(actionId: Int) {
+        findNavController().navigate(actionId)
+    }
+
     override fun onLocationClick(location: Location) {
-        if (!resources.getBoolean(R.bool.splitView)) {
-            findNavController().navigate(R.id.action_fragmentLocations_to_fragmentForecast)
-        }
+        viewModel.onLocationClick()
     }
 
     override fun onStop() {
