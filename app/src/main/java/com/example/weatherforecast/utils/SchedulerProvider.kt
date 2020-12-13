@@ -18,3 +18,13 @@ class RuntimeSchedulerProvider: SchedulerProvider {
         return AndroidSchedulers.mainThread()
     }
 }
+
+class TestSchedulerProvider : SchedulerProvider {
+    override fun io(): Scheduler {
+        return Schedulers.trampoline()
+    }
+
+    override fun main(): Scheduler {
+        return Schedulers.trampoline()
+    }
+}

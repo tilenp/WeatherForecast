@@ -3,16 +3,14 @@ package com.example.weatherforecast.viewModel
 import com.example.weatherforecast.R
 import com.example.weatherforecast.repository.Location
 import com.example.weatherforecast.repository.LocationRepository
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.*
 import io.reactivex.Single
 import org.junit.Test
 
 class LocationsViewModelTest {
 
     private val locationRepository: LocationRepository = mock()
+    private val eventAggregator: EventAggregator = mock()
     private lateinit var locationViewModel: LocationsViewModel
 
     private fun setUp(
@@ -20,7 +18,7 @@ class LocationsViewModelTest {
         locationsSingle: Single<List<Location>> = Single.just(emptyList())
     ) {
         whenever(locationRepository.getLocations()).thenReturn(locationsSingle)
-        locationViewModel = LocationsViewModel(locationRepository, splitView)
+        locationViewModel = LocationsViewModel(locationRepository, splitView, eventAggregator)
     }
 
     @Test
@@ -49,7 +47,7 @@ class LocationsViewModelTest {
         val testObserver = navigationObserver.test()
 
         // act
-        locationViewModel.onLocationClick()
+        locationViewModel.onLocationClick(Location())
 
         // assert
         testObserver
@@ -68,12 +66,26 @@ class LocationsViewModelTest {
         val testObserver = navigationObserver.test()
 
         // act
-        locationViewModel.onLocationClick()
+        locationViewModel.onLocationClick(Location())
 
         // assert
         testObserver
             .assertNoValues()
             .assertNoErrors()
             .dispose()
+    }
+
+    @Test
+    fun when_location_is_selected_event_aggregator_is_triggered() {
+        // arrange
+        setUp(
+            splitView = true
+        )
+
+        // act
+        locationViewModel.onLocationClick(Location())
+
+        // assert
+        verify(eventAggregator, times(1)).locationSelected(any())
     }
 }

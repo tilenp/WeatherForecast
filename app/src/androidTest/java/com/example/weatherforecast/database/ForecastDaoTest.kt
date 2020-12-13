@@ -70,7 +70,7 @@ class ForecastDaoTest {
         // assert
         forecastDao.getForecastForDate(1, 222)
             .test()
-            .assertValue(listOf(roomForecast2))
+            .assertValue(roomForecast2)
             .assertNoErrors()
             .dispose()
     }
