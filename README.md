@@ -2,12 +2,6 @@
 
 An application that shows tomorrow's weather forecast for specific cities. The app is written in Kotlin and using the MVVM desing pattern.
 
-## API Key
-
-Create an [API key][1].
-
-Add your API key to `API_KEY = "your_api_key"` in `Constants.kt` file.
-
 ## Libraries
 
 - Dagger 2
