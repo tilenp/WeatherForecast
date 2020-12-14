@@ -79,9 +79,21 @@ class FragmentForecast : Fragment() {
 
     private fun handleUIState(state: UIState) {
         when (state) {
+            is UIState.Default -> setDefaultState()
             is UIState.Loading -> setLoadingState()
-            is UIState.Success -> setSuccessState()
-            is UIState.Error -> setErrorState(state.stringId)
+            is UIState.QuerySuccess -> setSuccessState()
+            is UIState.Error -> {
+                setDefaultState()
+                showError(state.stringId)
+            }
+        }
+    }
+
+    private fun setDefaultState() {
+        with(binding) {
+            progressBar.visibility = View.GONE
+            selectLocationTextView.visibility = View.VISIBLE
+            forecastContainer.visibility = View.GONE
         }
     }
 
@@ -101,12 +113,7 @@ class FragmentForecast : Fragment() {
         }
     }
 
-    private fun setErrorState(stringId: Int) {
-        with(binding) {
-            progressBar.visibility = View.GONE
-            selectLocationTextView.visibility = View.VISIBLE
-            forecastContainer.visibility = View.GONE
-        }
+    private fun showError(stringId: Int) {
         Toast.makeText(requireContext(), getString(stringId), Toast.LENGTH_SHORT).show()
     }
 

@@ -35,14 +35,19 @@ class ForecastRepository @Inject constructor(
         val decimalFormat = DecimalFormat(DECIMAL_FORMAT)
         return Observable.merge(
             forecastDao.getForecastUpdateTimestamp(woeId)
-                .filter { timestamp -> timestamp + updateIntervalInHours * 60 * 60 * 1000 < System.currentTimeMillis() }
+                .map { timestamp -> System.currentTimeMillis() - (timestamp + updateIntervalInHours * 60 * 60 * 1000)}
                 .toObservable(),
             Observable.interval(updateIntervalInHours.toLong(), updateIntervalInHours.toLong(), TimeUnit.HOURS)
-        ).flatMapCompletable { _ ->
-            forecastService.getTomorrowForecast(woeId)
-                .map { remoteForecast -> roomForecastMapper.map(remoteForecast, woeId, dateFormatter, decimalFormat) }
-                .flatMapCompletable { roomForecast -> forecastDao.insertForecast(roomForecast) }
-                .andThen { forecastDao.setForecastUpdateTimestamp(System.currentTimeMillis(), woeId) }
+        ).flatMapCompletable { value ->
+            if (value > 0) {
+                forecastService.getTomorrowForecast(woeId)
+                    .map { remoteForecast -> roomForecastMapper.map(remoteForecast, woeId, dateFormatter, decimalFormat) }
+                    .flatMapCompletable { roomForecast ->
+                        forecastDao.insertForecast(roomForecast).andThen(forecastDao.setForecastUpdateTimestamp(System.currentTimeMillis(), woeId))
+                    }
+            } else {
+                Completable.complete()
+            }
         }
     }
 
