@@ -54,6 +54,7 @@ class ForecastViewModel @Inject constructor(
                             is UIState.Default -> UIState.Loading.FromDefault
                             is UIState.UpdateSuccess -> UIState.Loading.FromUpdateSuccess
                             is UIState.QuerySuccess -> UIState.Loading.FromQuerySuccess
+                            is UIState.Error -> UIState.Loading.FromError(oldState.stringId)
                             else -> newState
                         }
                     }
@@ -62,7 +63,7 @@ class ForecastViewModel @Inject constructor(
                             is UIState.Loading.FromDefault -> UIState.Default
                             is UIState.Loading.FromUpdateSuccess -> UIState.Default
                             is UIState.Loading.FromQuerySuccess -> UIState.QuerySuccess
-                            is UIState.Loading.FromError -> UIState.Error(oldState.stringId)
+                            is UIState.Loading.FromError -> UIState.Default
                             else -> newState
                         }
                     }
