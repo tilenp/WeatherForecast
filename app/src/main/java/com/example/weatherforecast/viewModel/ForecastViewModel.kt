@@ -48,17 +48,27 @@ class ForecastViewModel @Inject constructor(
         return uiStateSubject
             .distinctUntilChanged()
             .scan { oldState: UIState, newState: UIState ->
-                when {
-                    newState is UIState.StartLoading && oldState is UIState.Default -> UIState.Loading.FromDefault
-                    newState is UIState.StartLoading && oldState is UIState.UpdateSuccess -> UIState.Loading.FromUpdateSuccess
-                    newState is UIState.StartLoading && oldState is UIState.QuerySuccess -> UIState.Loading.FromQuerySuccess
-
-                    newState is UIState.UpdateSuccess && oldState is UIState.Loading.FromDefault -> UIState.Default
-                    newState is UIState.UpdateSuccess && oldState is UIState.Loading.FromUpdateSuccess -> UIState.Default
-                    newState is UIState.UpdateSuccess && oldState is UIState.Loading.FromQuerySuccess -> UIState.QuerySuccess
-                    newState is UIState.UpdateSuccess && oldState is UIState.Loading.FromError -> UIState.Error(oldState.stringId)
-
-                    else -> newState
+                when (newState) {
+                    is UIState.StartLoading -> {
+                        when (oldState) {
+                            is UIState.Default -> UIState.Loading.FromDefault
+                            is UIState.UpdateSuccess -> UIState.Loading.FromUpdateSuccess
+                            is UIState.QuerySuccess -> UIState.Loading.FromQuerySuccess
+                            else -> newState
+                        }
+                    }
+                    is UIState.UpdateSuccess -> {
+                        when (oldState) {
+                            is UIState.Loading.FromDefault -> UIState.Default
+                            is UIState.Loading.FromUpdateSuccess -> UIState.Default
+                            is UIState.Loading.FromQuerySuccess -> UIState.QuerySuccess
+                            is UIState.Loading.FromError -> UIState.Error(oldState.stringId)
+                            else -> newState
+                        }
+                    }
+                    else -> {
+                        newState
+                    }
                 }
             }
     }

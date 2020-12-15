@@ -32,7 +32,7 @@ class AppModule {
     @Provides
     @Named(UPDATE_INTERVAL_IN_HOURS)
     fun providesUpdateInterval(): Int {
-        return 12
+        return 1
     }
 
     @Singleton
