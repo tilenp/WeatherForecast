@@ -1,6 +1,6 @@
 ## WeatherForecast
 
-An application that shows tomorrow's weather forecast for specific cities. The app is written in Kotlin and using the MVVM desing pattern.
+An application that shows tomorrow's weather forecast for specific cities. The app is written in Kotlin using the MVVM desing pattern. Databse contains a pre-filled table for locations that are shown in FragmentLocations and a table for forecasts that are show in FragmentForecast. Forecasts are retrieved from MetaWeather API and filtered by date, so only the tomorrow's forecast is stored into the database.  
 
 ## Libraries
 
