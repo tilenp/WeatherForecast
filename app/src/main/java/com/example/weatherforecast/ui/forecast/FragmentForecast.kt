@@ -93,6 +93,8 @@ class FragmentForecast : Fragment() {
         with(binding) {
             progressBar.visibility = View.GONE
             selectLocationTextView.visibility = View.VISIBLE
+            titleTextView.visibility = View.GONE
+            image.visibility = View.GONE
             forecastContainer.visibility = View.GONE
         }
     }
@@ -101,6 +103,8 @@ class FragmentForecast : Fragment() {
         with(binding) {
             progressBar.visibility = View.VISIBLE
             selectLocationTextView.visibility = View.GONE
+            titleTextView.visibility = View.GONE
+            image.visibility = View.GONE
             forecastContainer.visibility = View.GONE
         }
     }
@@ -109,6 +113,8 @@ class FragmentForecast : Fragment() {
         with(binding) {
             progressBar.visibility = View.GONE
             selectLocationTextView.visibility = View.GONE
+            titleTextView.visibility = View.VISIBLE
+            image.visibility = View.VISIBLE
             forecastContainer.visibility = View.VISIBLE
         }
     }
@@ -119,6 +125,7 @@ class FragmentForecast : Fragment() {
 
     private fun updateData(forecast: Forecast) {
         with(binding) {
+            titleTextView.text = String.format(getString(R.string.title_format), forecast.title)
             Glide.with(image.context)
                 .load(forecast.imagePath?.imageSize64)
                 .into(image)

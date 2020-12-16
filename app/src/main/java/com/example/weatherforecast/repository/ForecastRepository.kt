@@ -5,8 +5,8 @@ import com.example.weatherforecast.DECIMAL_FORMAT
 import com.example.weatherforecast.UPDATE_INTERVAL_IN_HOURS
 import com.example.weatherforecast.database.ForecastDao
 import com.example.weatherforecast.database.RoomForecast
-import com.example.weatherforecast.mapper.Mapper
 import com.example.weatherforecast.mapper.FourMapper
+import com.example.weatherforecast.mapper.TwoMapper
 import com.example.weatherforecast.network.RemoteForecast
 import com.example.weatherforecast.service.TomorrowForecastService
 import com.example.weatherforecast.utils.tomorrowMills
@@ -25,7 +25,7 @@ class ForecastRepository @Inject constructor(
     private val forecastService: TomorrowForecastService,
     private val forecastDao: ForecastDao,
     private val roomForecastMapper: FourMapper<RemoteForecast, Int, SimpleDateFormat, DecimalFormat, RoomForecast>,
-    private val forecastMapper: Mapper<RoomForecast, Forecast>,
+    private val forecastMapper: TwoMapper<RoomForecast, String, Forecast>,
     @Named(UPDATE_INTERVAL_IN_HOURS) private val updateIntervalInHours: Int,
     private val locale: Locale
 ) {
@@ -52,7 +52,10 @@ class ForecastRepository @Inject constructor(
     }
 
     fun getTomorrowForecast(woeId: Int): Observable<Forecast> {
-        return forecastDao.getForecastForDate(woeId, tomorrowMills())
-            .map { roomForecast -> forecastMapper.map(roomForecast) }
+        return forecastDao.getLocationTitle(woeId)
+            .flatMapObservable { title ->
+                forecastDao.getForecastForDate(woeId, tomorrowMills())
+                    .map { roomForecast -> forecastMapper.map(roomForecast, title) }
+            }
     }
 }

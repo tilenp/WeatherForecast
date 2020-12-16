@@ -7,15 +7,16 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ForecastMapper @Inject constructor() : Mapper<RoomForecast, Forecast> {
+class ForecastMapper @Inject constructor() : TwoMapper<RoomForecast, String, Forecast> {
 
-    override fun map(objectToMap: RoomForecast): Forecast {
+    override fun map(objectToMap1: RoomForecast, objectToMap2: String): Forecast {
         return Forecast(
-            weatherStateName = objectToMap.weatherStateName,
-            imagePath = ImagePath(objectToMap.weatherStateAbbr),
-            minTemp = objectToMap.minTemp,
-            maxTemp = objectToMap.maxTemp,
-            windSpeed = objectToMap.windSpeed
+            title = objectToMap2,
+            weatherStateName = objectToMap1.weatherStateName,
+            imagePath = ImagePath(objectToMap1.weatherStateAbbr),
+            minTemp = objectToMap1.minTemp,
+            maxTemp = objectToMap1.maxTemp,
+            windSpeed = objectToMap1.windSpeed
         )
     }
 }

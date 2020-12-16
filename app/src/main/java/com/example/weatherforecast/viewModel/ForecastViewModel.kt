@@ -76,6 +76,8 @@ class ForecastViewModel @Inject constructor(
 
     fun getTomorrowForecast(): Observable<Forecast> {
         return eventAggregator.observeLocationSelected()
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.io())
             .switchMap { location ->
                 forecastRepository.getTomorrowForecast(location.woeid)
                     .doOnSubscribe { uiStateSubject.onNext(UIState.StartLoading) }

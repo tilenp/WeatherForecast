@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">WeatherForecast</string>
 
+    <string name="title_format">%s tomorrow</string>
     <string name="weather_state_format">Weather state: %s</string>
     <string name="min_temp_format">Min: %d °C</string>
     <string name="max_temp_format">Max: %d °C</string>

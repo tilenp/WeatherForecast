@@ -1,6 +1,7 @@
 package com.example.weatherforecast.repository
 
 data class Forecast(
+    val title: String = "",
     val weatherStateName: String = "",
     val imagePath: ImagePath? = null,
     val minTemp: Int = 0,

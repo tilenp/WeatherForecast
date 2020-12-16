@@ -20,6 +20,9 @@ interface ForecastDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertForecast(roomForecasts: RoomForecast): Completable
 
+    @Query("SELECT RoomLocation.title FROM RoomLocation WHERE RoomLocation.woeid = :woeId")
+    fun getLocationTitle(woeId: Int): Single<String>
+
     @Query("SELECT * FROM RoomForecast WHERE RoomForecast.locationId = :woeId AND RoomForecast.applicableDate = :applicableDate LIMIT 1")
     fun getForecastForDate(woeId: Int, applicableDate: Long): Observable<RoomForecast>
 }

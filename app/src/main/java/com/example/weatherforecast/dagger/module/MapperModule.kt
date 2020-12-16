@@ -21,5 +21,5 @@ interface MapperModule {
     fun providesRoomForecastMapper(roomForecastMapper: RoomForecastMapper): FourMapper<RemoteForecast, Int, SimpleDateFormat, DecimalFormat, RoomForecast>
 
     @Binds
-    fun providesForecastMapper(forecastMapper: ForecastMapper): Mapper<RoomForecast, Forecast>
+    fun providesForecastMapper(forecastMapper: ForecastMapper): TwoMapper<RoomForecast, String, Forecast>
 }
