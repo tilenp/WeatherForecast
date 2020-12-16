@@ -13,6 +13,7 @@ class ForecastMapperTest {
 
     @Test
     fun forecast_is_mapped_correctly() {
+        val title = "Stockholm"
         val weatherStateName = "stateName"
         val weatherStateAbbr = "sunny"
         val minTemp = 1
@@ -20,8 +21,9 @@ class ForecastMapperTest {
         val windSpeed = 3.3f
         val roomForecast = RoomForecast(1, 1, 0L, weatherStateName, weatherStateAbbr, minTemp, maxTemp, windSpeed)
 
-        val forecast = mapper.map(roomForecast)
+        val forecast = mapper.map(roomForecast, title)
 
+        assertEquals(title, forecast.title)
         assertEquals(weatherStateName, forecast.weatherStateName)
         assertEquals("$BASE_URL$IMAGE_SIZE_64/$weatherStateAbbr$IMAGE_FORMAT", forecast.imagePath?.imageSize64)
         assertEquals(minTemp, forecast.minTemp)
